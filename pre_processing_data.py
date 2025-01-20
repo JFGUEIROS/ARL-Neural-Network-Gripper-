@@ -12,14 +12,6 @@ def convert_txt_to_array(file_path):
         ...
     For multiple sensors (FSR1, FSR2, FSR3).
 
-    Steps:
-      1. Parse each line -> (time, sensor, voltage).
-      2. Build a DataFrame with columns [time, sensor, voltage].
-      3. Pivot to wide format => index=time, columns=sensor, values=voltage.
-      4. Sort by time; interpolate missing values.
-      5. Compute delta_t = difference in consecutive time steps.
-      6. Return a NumPy array of shape (N, 4) => [FSR1, FSR2, FSR3, delta_t].
-
     Returns:
       arr: np.ndarray of shape (N, 4).
            Where columns are [FSR1, FSR2, FSR3, delta_t].
@@ -133,8 +125,6 @@ def process_folder(input_folder, output_folder, label, sensor_columns=['FSR1', '
             print(f"Skipping file due to parsing issues: {file.name}")
             continue
         
-        # Optionally, you can append the label to the array or handle labels separately
-        # Here, we'll save the array and maintain a separate list of labels
         
         # Define output file name (e.g., B5.npy for B5.txt)
         output_file = output_path / (file.stem + ".npy")
@@ -149,11 +139,12 @@ def main():
     Main function to process all files in the 'square readings' folder.
     """
     # Define input and output folders
-    input_folder = "Sphere_Readings"  # Replace with your actual folder path
+    input_folder = "Sphere_Readings"  # Replace with actual folder path
     output_folder = "processed_ball_readings"  # Desired output folder
     
     # Define label for this class (e.g., 1 for square)
-    label = 0  # Adjust as needed
+    # IMPORTANT!!
+    label = 0  # Adjust as needed IMPORTANT!!
     
     # Process the folder
     process_folder(input_folder, output_folder, label)
